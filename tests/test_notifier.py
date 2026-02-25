@@ -11,9 +11,7 @@ from fastapi.testclient import TestClient
 @pytest.fixture(autouse=True)
 def _set_env(monkeypatch: pytest.MonkeyPatch) -> None:
     """Set required environment variables before importing the app."""
-    monkeypatch.setenv(
-        "MATTERMOST_WEBHOOK_URL", "https://mm.example.com/hooks/abc"
-    )
+    monkeypatch.setenv("MATTERMOST_WEBHOOK_URL", "https://mm.example.com/hooks/abc")
     monkeypatch.setenv("NOTIFY_API_KEY", "test-key")
 
 
@@ -120,20 +118,14 @@ class TestMattermostNotifier:
 
 
 class TestDispatch:
-    def test_notifier_failure_does_not_break_endpoint(
-        self, client: TestClient
-    ) -> None:
+    def test_notifier_failure_does_not_break_endpoint(self, client: TestClient) -> None:
         """A failing notifier should not cause a 500."""
         from notifier.mattermost import MattermostNotifier
 
-        broken = MattermostNotifier(
-            webhook_url="https://mm.example.com/hooks/abc"
-        )
+        broken = MattermostNotifier(webhook_url="https://mm.example.com/hooks/abc")
 
         with patch("notifier.app.notifiers", [broken]):
-            with patch.object(
-                broken, "notify", side_effect=Exception("webhook down")
-            ):
+            with patch.object(broken, "notify", side_effect=Exception("webhook down")):
                 resp = client.post(
                     "/notify/waitlist",
                     json={"email": "a@b.com"},
