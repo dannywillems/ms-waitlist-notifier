@@ -1,11 +1,10 @@
 """FastAPI authentication dependencies."""
 
+from collections.abc import Callable, Coroutine
+
 from fastapi import Header, HTTPException
 
 from notifier.config import Settings
-
-
-from collections.abc import Callable, Coroutine
 
 
 def make_require_api_key(
