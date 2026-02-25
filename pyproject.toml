@@ -1,7 +1,7 @@
 [project]
-name = "notifier"
+name = "ms-waitlist-notifier"
 version = "0.1.0"
-description = "Notification micro-service for Scribe events"
+description = "Notification micro-service for waitlist signups"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.109.1",
@@ -11,16 +11,17 @@ dependencies = [
     "pydantic-settings>=2.0",
 ]
 
-[project.scripts]
-notifier = "notifier.app:main"
-
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "pytest>=9.0",
     "pytest-asyncio>=1.0",
     "httpx>=0.23.0",
     "ruff>=0.15.1",
+    "mypy>=1.19",
 ]
+
+[project.scripts]
+notifier = "notifier.app:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -37,3 +38,6 @@ select = ["E", "F", "I", "W"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+
+[tool.mypy]
+strict = true

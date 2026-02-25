@@ -5,7 +5,12 @@ from fastapi import Header, HTTPException
 from notifier.config import Settings
 
 
-def make_require_api_key(settings: Settings):
+from collections.abc import Callable, Coroutine
+
+
+def make_require_api_key(
+    settings: Settings,
+) -> Callable[..., Coroutine[None, None, None]]:
     """Create an API key dependency bound to the given settings."""
 
     async def require_api_key(
